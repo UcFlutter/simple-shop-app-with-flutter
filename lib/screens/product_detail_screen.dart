@@ -12,6 +12,7 @@ class ProductDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Buildc Called On Product Detail');
     final routeId = ModalRoute.of(context)?.settings.arguments as String;
     final products =
         Provider.of<ProductProvider>(context, listen: false).findById(routeId);
