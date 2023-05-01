@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/product_detail_screen.dart';
+
 import '../models/product.dart';
+
+import '../providers/cart_provider.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key});
@@ -10,14 +13,15 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('Build Called On Product Item');
-    final product = Provider.of<Product>(context);
+    final productProvider = Provider.of<Product>(context);
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
           context,
           ProductDescription.routeName,
-          arguments: product.id,
+          arguments: productProvider.id,
         );
       },
       child: ClipRRect(
@@ -25,27 +29,35 @@ class ProductItem extends StatelessWidget {
         child: GridTile(
           footer: GridTileBar(
             title: Text(
-              product.title,
+              productProvider.title,
               textAlign: TextAlign.center,
             ),
             leading: IconButton(
               onPressed: () {
-                product.toggleFavorite();
+                productProvider.toggleFavorite();
               },
               icon: Icon(
-                product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                productProvider.isFavorite
+                    ? Icons.favorite
+                    : Icons.favorite_border,
               ),
               color: Colors.deepOrange,
             ),
             trailing: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                cartProvider.add(
+                  productProvider.id,
+                  productProvider.title,
+                  productProvider.price,
+                );
+              },
               icon: const Icon(Icons.shopping_cart),
               color: Theme.of(context).accentColor,
             ),
             backgroundColor: Colors.black87,
           ),
           child: Image.network(
-            product.imageUrl,
+            productProvider.imageUrl,
             fit: BoxFit.cover,
           ),
         ),
