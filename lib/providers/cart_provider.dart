@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/cart.dart';
 
 class CartProvider with ChangeNotifier {
-  final Map<String, Cart> _cartItems = {};
+  Map<String, Cart> _cartItems = {};
 
   Map<String, Cart> get cartItems {
     return {..._cartItems};
@@ -48,6 +48,11 @@ class CartProvider with ChangeNotifier {
 
   void removeItemFromCart(String productId) {
     _cartItems.remove(productId);
+    notifyListeners();
+  }
+
+  void clear() {
+    _cartItems = {};
     notifyListeners();
   }
 }

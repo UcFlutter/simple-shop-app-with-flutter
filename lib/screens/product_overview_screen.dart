@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/cart_provider.dart';
+import './cart_screen.dart';
+
 import '../widgets/product_grid.dart';
-import 'cart_screen.dart';
+import '../widgets/app_drawer.dart';
+
+import '../providers/cart_provider.dart';
 
 enum FilteringOptions {
   Favorites,
@@ -24,6 +27,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   Widget build(BuildContext context) {
     print('Build Called On Product Overview');
     return Scaffold(
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: const Text('MY SHOP'),
         actions: [
